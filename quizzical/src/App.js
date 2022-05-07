@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+// import './App.css';
+import './index.css';
+import React from 'react';
+import Startpage from './startpage'
+import Testpage from './testpage';
+
+
+
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   const [isgameactive, setisgameactive] = useState(false);
+
+function activategame(){
+    setisgameactive( true )
+}
+
+ return(
+    <div className='appcontainer' >
+    <Startpage 
+    startgame = {activategame} />
+    <Testpage/>
+</div>
+ )  
 }
 
 
