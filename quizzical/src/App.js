@@ -10,7 +10,7 @@ import Testpage from './testpage';
 
 
 function App() {
-   const [isgameactive, setisgameactive] = useState(false);
+   const [isgameactive, setisgameactive] = React.useState(false);
 
 function activategame(){
     setisgameactive( true )
@@ -18,9 +18,10 @@ function activategame(){
 
  return(
     <div className='appcontainer' >
-    <Startpage 
-    startgame = {activategame} />
-    <Testpage/>
+    {!isgameactive && <Startpage 
+    startgame = {activategame} /> }
+ 
+     {isgameactive && <Testpage/>}
 </div>
  )  
 }
