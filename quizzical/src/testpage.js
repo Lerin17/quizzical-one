@@ -3,6 +3,25 @@ import React from "react";
 export default  function Testpage(){
 const [isdata, setisdata] = React.useState();
 const [testdata, settestdata] = React.useState();
+const [select, setselect] = React.useState(false)
+const [testdataalt, settestdataalt] = React.useState();
+
+if(testdata){
+    const testdataaltupdate = testdata.map(item => {
+        arraymove([...item.incorrect_answers, item.correct_answer], 3, randomnum()) .map(answer => {
+             return (
+                {
+                    options : answer.replaceAll('&quot;', "'" ).replaceAll('&#039;', "'").replaceAll('&amp', "'"), correct:answer === item.correct_answer?true:false,
+                selected:false
+     
+             } 
+             )
+         })
+     }  )
+}
+
+//to change array through reactstate for easy re-renders, it might be beneficial to pass this array down as a prop from App to be rendered//
+
 let questions = []
 
 
@@ -13,6 +32,8 @@ let questions = []
         .then(data => settestdata(data.results)
         )  
 }, []);
+
+
 
 function randomnum(){
  return Math.floor(Math.random()*5)  ;  
@@ -39,15 +60,13 @@ if(testdata){
     console.log(testdata)
     let optionsdata = []
 
-//   testdata.forEach(item => {
-      
-//   });
-// arraymove([...item.incorrect_answers, item.correct_answer], 3, randomnum())
+
 
 testdata.map(item => {
     optionsdata.push(arraymove([...item.incorrect_answers, item.correct_answer], 3, randomnum()) .map(answer => {
         return (
-           {text : answer.replaceAll('&quot;', "'" ).replaceAll('&#039;', "'").replaceAll('&amp', "'"), correct:answer == item.correct_answer?true:false,
+           {text : answer.replaceAll('&quot;', "'" ).replaceAll('&#039;', "'").replaceAll('&amp', "'"), correct:answer === item.correct_answer?true:false,
+           selected:false
         } 
         )
     } ))
@@ -62,17 +81,17 @@ return arr[0]+arr[1]+arr[2]+arr[3]
 }
 
 console.log(optionsdata)
-   
+
+
+
  
 let optionlengthdata = []
 let optionlength = []
 
 
  for (let n = 0; n < questiondata.length; n++) {
-    const questionn = questiondata[n];
-    const optionn =  optionsdata[n]
-    
-    optionlengthdata.push(optionn.map(item =>  item.text.length))
+   
+    optionlengthdata.push(optionsdata[n].map(item =>  item.text.length))
 
     const optionlengthn = optionlengthdata[n]
 
@@ -86,29 +105,34 @@ const textoverflow = optionlength.map(item => {
     }
 } )
 
-// console.log(textoverflow)
+console.log(optionsdata[n])
+
+// const anx = optionsdata.map(
+//     item => (
+//         <Quiz/>
+//     )
+// )
+
+// function changeselected(it){
+// const indexa =  questions.indexOf(it)
+// optionsdata
+// }
+
 
     questions.push (
         <div className="questioncon">
-            <p>{questionn.text}</p>
-            <div className="optioncon">{optionn.map(item => <span style={{display:textoverflow[n]?'block':'inline'}}
+            <p>{questiondata[n].text}</p>
+            <div className="optioncon">{optionsdata[n].map(item => <span  style={{display:textoverflow[n]?'block':'inline',
+            backgroundColor:item.selected?'blue':'greenyellow'}}
             className="options">{item.text}</span> )} </div>
-        </div>   
+        </div> 
     )
     
 }
 
-
-
 }
 
-
-///trying to test out replacing text and modify text based on character indicators from json
-const text = 'In which U.S. state is Far Cry 5&#039;s fictional setting &#039;Hope County&#039; located?'
-   
-
-
-console.log('work')
+console.log(questions)
 
 
 
