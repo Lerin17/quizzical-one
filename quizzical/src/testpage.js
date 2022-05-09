@@ -3,7 +3,7 @@ import React from "react";
 export default  function Testpage(){
 const [isdata, setisdata] = React.useState();
 const [testdata, settestdata] = React.useState();
-let question
+let questions = []
 
 
 
@@ -15,17 +15,19 @@ let question
 }, []);
 
 function randomnum(){
- return Math.floor(Math.random()*4) + 1 ;  
+ return Math.floor(Math.random()*5)  ;  
 }
 
-//testing
+console.log(randomnum())
+
+//testing a randomizer
 let gum = [2, 5, 66, 9 ]
 
 function arraymove(arr, fromIndex, toIndex) {
     var element = arr[fromIndex];
     arr. splice(fromIndex, 1);
     arr. splice(toIndex, 0, element);
-    console.log(gum)
+    return arr
     }
 
     arraymove(gum, 1, randomnum())
@@ -35,31 +37,69 @@ function arraymove(arr, fromIndex, toIndex) {
 
 if(testdata){
     console.log(testdata)
-    question =   testdata.map(item =>
-        {
-     let optionsdata =  [...item.incorrect_answers, item.correct_answer].map(answer => {
-            return (
-               {text : answer, correct:answer == item.correct_answer?true:false,
-            } 
-            )
-        } )
+    let optionsdata = []
 
-        
+//   testdata.forEach(item => {
+      
+//   });
+// arraymove([...item.incorrect_answers, item.correct_answer], 3, randomnum())
 
-        //adding a newindex to randomize answers
+testdata.map(item => {
+    optionsdata.push(arraymove([...item.incorrect_answers, item.correct_answer], 3, randomnum()) .map(answer => {
+        return (
+           {text : answer.replaceAll('&quot;', "'" ).replaceAll('&#039;', "'").replaceAll('&amp', "'"), correct:answer == item.correct_answer?true:false,
+        } 
+        )
+    } ))
+}  )
 
-        console.log(optionsdata)
+const questiondata = testdata.map(item => {
+    return( {text: item.question.replaceAll('&quot;', "'" ).replaceAll('&#039;', "'")})   
+})
+
+function addnum(arr){
+return arr[0]+arr[1]+arr[2]+arr[3]
+}
+
+console.log(optionsdata)
+   
+ 
+let optionlengthdata = []
+let optionlength = []
+
+
+ for (let n = 0; n < questiondata.length; n++) {
+    const questionn = questiondata[n];
+    const optionn =  optionsdata[n]
     
+    optionlengthdata.push(optionn.map(item =>  item.text.length))
 
-            
-        return(<div key = {testdata.indexOf(item)}>
-        <p>{item.question.replaceAll('&quot;', "'" ).replaceAll('&#039;', "'") }</p>
-        </div>)    
-        }
+    const optionlengthn = optionlengthdata[n]
 
+optionlength.push(addnum(optionlengthn))  
 
-        
+const textoverflow = optionlength.map(item => {
+    if(item > 60){
+        return true
+    }else{
+        return false
+    }
+} )
+
+// console.log(textoverflow)
+
+    questions.push (
+        <div className="questioncon">
+            <p>{questionn.text}</p>
+            <div className="optioncon">{optionn.map(item => <span style={{display:textoverflow[n]?'block':'inline'}}
+            className="options">{item.text}</span> )} </div>
+        </div>   
     )
+    
+}
+
+
+
 }
 
 
@@ -69,24 +109,13 @@ const text = 'In which U.S. state is Far Cry 5&#039;s fictional setting &#039;Ho
 
 
 console.log('work')
-// if(testdata){
-//     const y =  testdata.map(item => { return (
-//         item.question.slice(
-//             item.question.indexOf('&‌#039') + 1,
-//             item.question.lastIndexOf('&‌#039') ) 
-//     )
-        
-//     })
 
-//     console.log(y)
-// }
-//
 
 
 if(testdata){
     return(
-        <div>
-            {question}
+        <div className="testpagecon">
+            {questions}
         </div>
         )   
 }else{

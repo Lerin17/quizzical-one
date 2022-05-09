@@ -69,4 +69,21 @@ code {
 }
 
 
-/* test */
+/* testpage */
+.testpagecon{
+ width: 550px;
+ margin: 0 auto;
+}
+
+/* questionbody */
+.questioncon{
+  background-color: bisque;
+  margin: 10px;
+}
+
+.options{
+  border-radius: 4px;
+  background-color: rgb(142, 200, 79);
+  padding: 0 3px;
+  margin-right: 13px;
+}
