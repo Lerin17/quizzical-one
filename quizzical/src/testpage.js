@@ -1,10 +1,23 @@
 import React from "react";
 
-export default  function Testpage(){
+
+
+export default  function Quest(props){
 const [isdata, setisdata] = React.useState();
 const [testdata, settestdata] = React.useState();
 const [select, setselect] = React.useState(false)
 const [testdataalt, settestdataalt] = React.useState();
+
+
+return(
+    <div className="questioncon">
+                <p>{props.question}</p>
+                <div className="optioncon">{props.options.map(item => <span  style={{
+                backgroundColor:item.selected?'blue':'greenyellow'}}
+                className="options">{item.text}</span> )} </div>
+            </div> 
+    )
+    
 
 if(testdata){
     const testdataaltupdate = testdata.map(item => {
@@ -17,7 +30,8 @@ if(testdata){
              } 
              )
          })
-     }  )
+     } )
+   
 }
 
 //to change array through reactstate for easy re-renders, it might be beneficial to pass this array down as a prop from App to be rendered//
@@ -76,79 +90,24 @@ const questiondata = testdata.map(item => {
     return( {text: item.question.replaceAll('&quot;', "'" ).replaceAll('&#039;', "'")})   
 })
 
-function addnum(arr){
-return arr[0]+arr[1]+arr[2]+arr[3]
-}
-
-console.log(optionsdata)
 
 
-
- 
 let optionlengthdata = []
-let optionlength = []
-
-
- for (let n = 0; n < questiondata.length; n++) {
-   
-    optionlengthdata.push(optionsdata[n].map(item =>  item.text.length))
-
-    const optionlengthn = optionlengthdata[n]
-
-optionlength.push(addnum(optionlengthn))  
-
-const textoverflow = optionlength.map(item => {
-    if(item > 60){
-        return true
-    }else{
-        return false
-    }
-} )
-
-console.log(optionsdata[n])
-
-// const anx = optionsdata.map(
-//     item => (
-//         <Quiz/>
-//     )
-// )
-
-// function changeselected(it){
-// const indexa =  questions.indexOf(it)
-// optionsdata
-// }
-
-
-    questions.push (
-        <div className="questioncon">
-            <p>{questiondata[n].text}</p>
-            <div className="optioncon">{optionsdata[n].map(item => <span  style={{display:textoverflow[n]?'block':'inline',
-            backgroundColor:item.selected?'blue':'greenyellow'}}
-            className="options">{item.text}</span> )} </div>
-        </div> 
-    )
-    
+console.log(optionlengthdata)
+optionlengthdata.push(props.options.map(item => {
+  return  item.text.length
+}))
 }
 
-}
+
+
+
 
 console.log(questions)
 
 
 
-if(testdata){
-    return(
-        <div className="testpagecon">
-            {questions}
-        </div>
-        )   
-}else{
-    return (
-        <h1>
-         questions loading...
-        </h1>
-    )
-}
+
   
 }
 
